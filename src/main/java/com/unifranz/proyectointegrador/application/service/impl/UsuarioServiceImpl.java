@@ -30,10 +30,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<UsuarioDto> listar(){
-        return usuarioRepository.findAll()
-                .stream()
-                .filter(u -> u.getActivo() == true)
-                .map(UsuarioDto::new)
+        return usuarioRepository.listarActivos()
+                .stream().map(UsuarioDto::new)
                 .collect(Collectors.toList());
 
     }
