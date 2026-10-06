@@ -25,16 +25,26 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setNombre(usuarioDto.getNombre());
         usuario.setEmail(usuarioDto.getEmail());
        Usuario guardado =  usuarioRepository.save(usuario);
-        return new UsuarioDto(guardado.getId(), guardado.getNombre(),guardado.getEmail());
+        return new UsuarioDto(guardado);
     }
 
     @Override
     public List<UsuarioDto> listar(){
         return usuarioRepository.findAll()
                 .stream()
-                .map(u -> new UsuarioDto(u.getId(),u.getNombre(), u.getEmail()))
+                .filter(u -> u.getActivo() == true)
+                .map(UsuarioDto::new)
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public void eliminar(Long id){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no existe"));
+
+        usuario.setActivo(false);
+        usuarioRepository.save(usuario);
     }
 
 }

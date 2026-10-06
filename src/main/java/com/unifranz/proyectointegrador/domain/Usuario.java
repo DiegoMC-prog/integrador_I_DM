@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class Usuario extends Auiditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
